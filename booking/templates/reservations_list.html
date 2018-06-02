@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+{% block content %}
+
+<div>
+  {% if reservations %}
+  <ul>
+    {% for reservation in reservations %}
+    <li>
+      <a href="{{ url_for('reservation_details', pk=reservation.IdRezerwacji) }}">{{ reservation.IdRezerwacji }}</a>
+      {{ reservation.DataRezerwacji }}
+      {{ reservation.DataRozpoczecia }}
+      {{ reservation.DataZakonczenia }}
+      {{ reservation.OpisRezerwacji }}
+      {{ reservation.IdSali }}
+      {{ reservation.IdUzytkownika }}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endblock %}

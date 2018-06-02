@@ -1,0 +1,53 @@
+<!-- todo/templates/index.html -->
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="description"
+        content=""/>
+  <meta name="keywords"
+        content=""/>
+  <title>{{ config.SITE_NAME }}</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+<body>
+<div>
+  <div>
+    {% for message in get_flashed_messages() %}
+    {% if message.category == error %}
+    <strong class="error">Error: {{ message }}</strong>
+    {% else %}
+    <strong class="success">{{ message }}</strong>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <div>
+    <ul>
+      <li>
+        <a href="{{ url_for('index') }}"><h1>{{ config.SITE_NAME }}</h1></a>
+      </li>
+      <li>
+        <a href="{{ url_for('users_list') }}"><h2>Users</h2></a>
+      </li>
+      <li>
+        <a href="{{ url_for('rooms_list') }}"><h2>Rooms</h2></a>
+      </li>
+      <li>
+        <a href="{{ url_for('reservations_list') }}"><h2>Reservations</h2></a>
+      </li>
+      <li>
+        <a href="{{ url_for('add_reservation') }}"><h2>Add Reservation</h2></a>
+      </li>
+    </ul>
+  </div>
+  {% block content %}{% endblock %}
+</div>
+<footer>
+  <div>
+    2018 &copy;<br>
+  </div>
+</footer>
+</body>
+</html>

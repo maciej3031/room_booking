@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+{% block content %}
+
+<div>
+  RESERVATION INFO:
+  <ul>
+    <li>{{ reservation.IdRezerwacji }}</li>
+    <li>{{ reservation.DataRezerwacji }}</li>
+    <li>{{ reservation.DataRozpoczecia }}</li>
+    <li>{{ reservation.DataZakonczenia }}</li>
+    <li>{{ reservation.OpisRezerwacji }}</li>
+    <li><a href="{{ url_for('room_details', pk=reservation.sale.IdSali) }}">{{ reservation.sale.Nazwa }}</a></li>
+    <li>{{ reservation.uzytkownicy.Imie }}</li>
+    <li>{{ reservation.uzytkownicy.Nazwisko }}</li>
+  </ul>
+  ORDERED SERVICES:
+  <ul>
+    {% for detail in reservation.rezerwacjeszczegoly_collection %}
+    <li>
+      {{ detail.uslugi.IdUslugi }}
+      {{ detail.Ilosc }}
+      {{ detail.uslugi.Nazwa }}
+      {{ detail.uslugi.Typ }}
+      {{ detail.uslugi.CenaWykorzystania }}
+      {{ detail.uslugi.OpisUslugi }}
+    </li>
+    {% endfor %}
+  </ul>
+
+</div>
+{% endblock %}

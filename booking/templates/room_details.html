@@ -1,0 +1,42 @@
+{% extends "index.html" %}
+{% block content %}
+
+<div>
+  ROOM INFO:
+  <ul>
+    <li>{{ room.IdSali }}</li>
+    <li>{{ room.Nazwa }}</li>
+    <li>{{ room.LiczbaMiejsc }}</li>
+    <li>{{ room.OpisSali }}</li>
+  </ul>
+  AVAILABLE FIXED EQUIPMENT:
+  <ul>
+    {% for equip in room.sprzetnieruchomywsali_collection %}
+    <li>
+      {{ equip.NumerSeryjny }}
+      {{ equip.NazwaSprzetu }}
+      {{ equip.TagSprzetu }}
+      {{ equip.RokProdukcji }}
+      {{ equip.Gwarancja }}
+      {{ equip.OpisSprzetu }}
+    </li>
+    {% endfor %}
+  </ul>
+
+  RESERVATIONS:
+  <ul>
+    {% for reservation in room.rezerwacje_collection %}
+    <li>
+      <a href="{{ url_for('reservation_details', pk=reservation.IdRezerwacji) }}">{{ reservation.IdRezerwacji }}</a>
+      {{ reservation.DataRezerwacji }}
+      {{ reservation.DataRozpoczecia }}
+      {{ reservation.DataZakonczenia }}
+      {{ reservation.OpisRezerwacji }}
+      {{ reservation.IdSali }}
+      {{ reservation.IdUzytkownika }}
+    </li>
+    {% endfor %}
+  </ul>
+
+</div>
+{% endblock %}

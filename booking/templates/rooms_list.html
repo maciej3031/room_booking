@@ -1,0 +1,18 @@
+{% extends "index.html" %}
+{% block content %}
+
+<div>
+  {% if rooms %}
+  <ul>
+    {% for room in rooms %}
+    <li>
+      <a href="{{ url_for('room_details', pk=room.IdSali) }}">{{ room.IdSali }}</a>
+      {{ room.Nazwa }}
+      {{ room.LiczbaMiejsc }}
+      {{ room.OpisSali }}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endblock %}
