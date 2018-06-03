@@ -1,21 +1,35 @@
 {% extends "index.html" %}
 {% block content %}
 
-<div>
-  {% if reservations %}
-  <ul>
-    {% for reservation in reservations %}
-    <li>
-      <a href="{{ url_for('reservation_details', pk=reservation.IdRezerwacji) }}">{{ reservation.IdRezerwacji }}</a>
-      {{ reservation.DataRezerwacji }}
-      {{ reservation.DataRozpoczecia }}
-      {{ reservation.DataZakonczenia }}
-      {{ reservation.OpisRezerwacji }}
-      {{ reservation.IdSali }}
-      {{ reservation.IdUzytkownika }}
-    </li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-</div>
+<br>
+<h2>Reservations</h2>
+{% if reservations %}
+	<table class="table table-hover">
+		<thead>
+		  <tr>
+			<th>ID</th>
+			<th>Date</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th>Description</th>
+			<th>Room</th>
+			<th>User</th>
+		  </tr>
+		</thead>
+		<tbody>
+		{% for reservation in reservations %}
+		<tr>
+			<td><a href="{{ url_for('reservation_details', pk=reservation.IdRezerwacji) }}">{{ reservation.IdRezerwacji }}</a></td>
+			<td>{{ reservation.DataRezerwacji }}</td>
+			<td>{{ reservation.DataRozpoczecia }}</td>
+			<td>{{ reservation.DataZakonczenia }}</td>
+			<td>{{ reservation.OpisRezerwacji }}</td>
+			<td><a href="{{ url_for('room_details', pk=reservation.IdSali) }}">{{ reservation.IdSali }}</a></td>
+			<td>{{ reservation.IdUzytkownika }}</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endif %}
+
 {% endblock %}

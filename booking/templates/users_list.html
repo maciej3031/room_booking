@@ -1,19 +1,31 @@
 {% extends "index.html" %}
 {% block content %}
 
-<div>
-  {% if users %}
-  <ul>
-    {% for user in users %}
-    <li>
-      {{ user.IdUzytkownika }}
-      {{ user.Imie }}
-      {{ user.Nazwisko }}
-      {{ user.OpisUzytkownika }}
-      {{ user.IdDzialu }}
-    </li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-</div>
+<br>
+<h2>Users</h2>
+{% if users %}
+	<table class="table table-hover">
+		<thead>
+		  <tr>
+			<th>ID</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Description</th>
+			<th>Department ID</th>
+		  </tr>
+		</thead>
+		<tbody>
+		{% for user in users %}
+		<tr>
+			<td>{{ user.IdUzytkownika }}</td>
+			<td>{{ user.Imie }}</td>
+			<td>{{ user.Nazwisko }}</td>
+			<td>{{ user.OpisUzytkownika }}</td>
+			<td>{{ user.IdDzialu }}</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endif %}
+
 {% endblock %}

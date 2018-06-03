@@ -1,18 +1,29 @@
 {% extends "index.html" %}
 {% block content %}
 
-<div>
-  {% if rooms %}
-  <ul>
-    {% for room in rooms %}
-    <li>
-      <a href="{{ url_for('room_details', pk=room.IdSali) }}">{{ room.IdSali }}</a>
-      {{ room.Nazwa }}
-      {{ room.LiczbaMiejsc }}
-      {{ room.OpisSali }}
-    </li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-</div>
+<br>
+<h2>Rooms</h2>
+{% if rooms %}
+	<table class="table table-hover">
+		<thead>
+		  <tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Capacity</th>
+			<th>Description</th>
+		  </tr>
+		</thead>
+		<tbody>
+		{% for room in rooms %}
+		<tr>
+			<td><a href="{{ url_for('room_details', pk=room.IdSali) }}">{{ room.IdSali }}</a></td>
+			<td>{{ room.Nazwa }}</td>
+			<td>{{ room.LiczbaMiejsc }}</td>
+			<td>{{ room.OpisSali }}</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endif %}
+
 {% endblock %}
