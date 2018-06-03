@@ -15,13 +15,15 @@
 <body>
 <div>
   <div>
-    {% for message in get_flashed_messages() %}
-    {% if message.category == error %}
-    <strong class="error">Error: {{ message }}</strong>
-    {% else %}
-    <strong class="success">{{ message }}</strong>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class=flashes>
+      {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
     {% endif %}
-    {% endfor %}
+    {% endwith %}
   </div>
   <div>
     <ul>

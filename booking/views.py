@@ -43,7 +43,7 @@ def change_reservation():
 @app.route('/add_reservation/', methods=['GET', 'POST'])
 def add_reservation():
     form = AddReservationForm(request.form)
-    if request.method == 'POST' :
+    if request.method == 'POST':
         session.query(Rezerwacje.IdRezerwacji).all()
         # It's stupid but I have no idea why it doesn't work without IdRezerwacji. It should work just like for RezerwacjeSzczegoly.
         max_id = session.query(Rezerwacje).order_by(Rezerwacje.IdRezerwacji.desc()).first().IdRezerwacji
