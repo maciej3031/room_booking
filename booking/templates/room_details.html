@@ -1,42 +1,79 @@
 {% extends "index.html" %}
 {% block content %}
 
-<div>
-  ROOM INFO:
-  <ul>
-    <li>{{ room.IdSali }}</li>
-    <li>{{ room.Nazwa }}</li>
-    <li>{{ room.LiczbaMiejsc }}</li>
-    <li>{{ room.OpisSali }}</li>
-  </ul>
-  AVAILABLE FIXED EQUIPMENT:
-  <ul>
-    {% for equip in room.sprzetnieruchomywsali_collection %}
-    <li>
-      {{ equip.NumerSeryjny }}
-      {{ equip.NazwaSprzetu }}
-      {{ equip.TagSprzetu }}
-      {{ equip.RokProdukcji }}
-      {{ equip.Gwarancja }}
-      {{ equip.OpisSprzetu }}
-    </li>
-    {% endfor %}
-  </ul>
+<br>
+<h2>Room Info</h2>
+<table class="table table-hover">
+	<thead>
+	  <tr>
+		<th>ID</th>
+		<th>Name</th>
+		<th>Capacity</th>
+		<th>Description</th>
+	  </tr>
+	</thead>
+	<tbody>
+	<tr>
+	    <td>{{ room.IdSali }}</td>
+		<td>{{ room.Nazwa }}</td>
+		<td>{{ room.LiczbaMiejsc }}</td>
+		<td>{{ room.OpisSali }}</td>
+	</tr>
+	</tbody>
+</table>
 
-  RESERVATIONS:
-  <ul>
-    {% for reservation in room.rezerwacje_collection %}
-    <li>
-      <a href="{{ url_for('reservation_details', pk=reservation.IdRezerwacji) }}">{{ reservation.IdRezerwacji }}</a>
-      {{ reservation.DataRezerwacji }}
-      {{ reservation.DataRozpoczecia }}
-      {{ reservation.DataZakonczenia }}
-      {{ reservation.OpisRezerwacji }}
-      {{ reservation.IdSali }}
-      {{ reservation.IdUzytkownika }}
-    </li>
-    {% endfor %}
-  </ul>
+<br>
+<h2>Available Fixed Equipment</h2>
+<table class="table table-hover">
+	<thead>
+	  <tr>
+		<th>Serial Number</th>
+		<th>Name</th>
+		<th>Tag</th>
+		<th>Production Year</th>
+		<th>Warranty Years</th>
+		<th>Description</th>
+	  </tr>
+	</thead>
+	<tbody>
+	{% for equip in room.sprzetnieruchomywsali_collection %}
+	<tr>
+		<td>{{ equip.NumerSeryjny }}</td>
+		<td>{{ equip.NazwaSprzetu }}</td>
+		<td>{{ equip.TagSprzetu }}</td>
+		<td>{{ equip.RokProdukcji }}</td>
+		<td>{{ equip.Gwarancja }}</td>
+		<td>{{ equip.OpisSprzetu }}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
 
-</div>
+<br>
+<h2>Reservations History</h2>
+<table class="table table-hover">
+	<thead>
+	  <tr>
+		<th>ID</th>
+		<th>Date</th>
+		<th>Start Date</th>
+		<th>End Date</th>
+		<th>Description</th>
+		<th>User</th>
+	  </tr>
+	</thead>
+	<tbody>
+	{% for reservation in room.rezerwacje_collection %}
+	<tr>
+		<td><a href="{{ url_for('reservation_details', pk=reservation.IdRezerwacji) }}">{{ reservation.IdRezerwacji }}</a></td>
+		<td>{{ reservation.DataRezerwacji }}</td>
+		<td>{{ reservation.DataRozpoczecia }}</td>
+		<td>{{ reservation.DataZakonczenia }}</td>
+		<td>{{ reservation.OpisRezerwacji }}</td>
+		<td>{{ reservation.IdUzytkownika }}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
 {% endblock %}

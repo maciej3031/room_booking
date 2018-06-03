@@ -1,31 +1,54 @@
 {% extends "index.html" %}
 {% block content %}
 
-<div>
-  RESERVATION INFO:
-  <ul>
-    <li>{{ reservation.IdRezerwacji }}</li>
-    <li>{{ reservation.DataRezerwacji }}</li>
-    <li>{{ reservation.DataRozpoczecia }}</li>
-    <li>{{ reservation.DataZakonczenia }}</li>
-    <li>{{ reservation.OpisRezerwacji }}</li>
-    <li><a href="{{ url_for('room_details', pk=reservation.sale.IdSali) }}">{{ reservation.sale.Nazwa }}</a></li>
-    <li>{{ reservation.uzytkownicy.Imie }}</li>
-    <li>{{ reservation.uzytkownicy.Nazwisko }}</li>
-  </ul>
-  ORDERED SERVICES:
-  <ul>
-    {% for detail in reservation.rezerwacjeszczegoly_collection %}
-    <li>
-      {{ detail.uslugi.IdUslugi }}
-      {{ detail.Ilosc }}
-      {{ detail.uslugi.Nazwa }}
-      {{ detail.uslugi.Typ }}
-      {{ detail.uslugi.CenaWykorzystania }}
-      {{ detail.uslugi.OpisUslugi }}
-    </li>
-    {% endfor %}
-  </ul>
+<br>
+<h2>Reservation Info</h2>
+<table class="table table-hover">
+	<thead>
+	  <tr>
+		<th>Date</th>
+		<th>Start Date</th>
+		<th>End Date</th>
+		<th>Description</th>
+		<th>Room</th>
+		<th>User</th>
+	  </tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>{{ reservation.DataRezerwacji }}</td>
+		<td>{{ reservation.DataRozpoczecia }}</td>
+		<td>{{ reservation.DataZakonczenia }}</td>
+		<td>{{ reservation.OpisRezerwacji }}</td>
+		<td><a href="{{ url_for('room_details', pk=reservation.sale.IdSali) }}">{{ reservation.sale.Nazwa }}</a></td>
+		<td>{{ reservation.IdUzytkownika }}</td>
+	</tr>
+	</tbody>
+</table>
 
-</div>
+<br>
+<h2>Ordered Servics</h2>
+<table class="table table-hover">
+	<thead>
+	  <tr>
+		<th>Quantity</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Price</th>
+		<th>Description</th>
+	  </tr>
+	</thead>
+	<tbody>
+	{% for detail in reservation.rezerwacjeszczegoly_collection %}
+	<tr>
+		<td>{{ detail.Ilosc }}</td>
+		<td>{{ detail.uslugi.Nazwa }}</td>
+		<td>{{ detail.uslugi.Typ }}</td>
+		<td>{{ detail.uslugi.CenaWykorzystania }}</td>
+		<td>{{ detail.uslugi.OpisUslugi }}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
 {% endblock %}
