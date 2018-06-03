@@ -1,19 +1,48 @@
 {% extends "index.html" %}
 {% block content %}
 
-<div>
-  <form method="POST" action="{{ url_for('add_reservation') }}">
-    {{ form.csrf_token }}
-    <ul>
-      <li>{{ form.user_id.label }} {{ form.user_id(size=20) }}</li>
-      <li>{{ form.room.label }} {{ form.room(size=7) }}</li>
-      <li>{{ form.services.label }} {{ form.services(size=7) }}</li>
-      <li>{{ form.start_date.label }} {{ form.start_date(size=20) }} Format: 2018-01-25 10:30:45</li>
-      <li>{{ form.end_date.label }} {{ form.end_date(size=20) }} Format: 2018-01-25 10:30:45</li>
-      <li>{{ form.description.label }} {{ form.description(size=100) }}</li>
-    </ul>
+<br>
+<h2>Add Reservation</h2>
+<p class="text-muted">Fill this form to create a new reservation entry.</p>
+<form method="POST" action="{{ url_for('add_reservation') }}">
+	{{ form.csrf_token }}
+	<div class="form-group">
+		<label for="formControlInput1">{{ form.user_id.label }}</label>
+		<div class="form-control" id="formControlInput1">
+		{{ form.user_id(size=20) }}
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="formControlInput2">{{ form.room.label }}</label>
+		<div class="form-control" id="formControlInput2">
+		{{ form.room(size=7) }}
+		</div>
+		</div>
+		<div class="form-group">
+		<label for="formControlInput3">{{ form.services.label }} (multiselect with Ctrl)</label>
+		<div class="form-control" id="formControlInput3">
+		{{ form.services(size=7) }}
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="formControlInput4">{{ form.start_date.label }} (format: 2018-01-25 10:30:45)</label>
+		<div class="form-control" id="formControlInput4">
+		{{ form.start_date(size=20) }}
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="formControlInput5">{{ form.end_date.label }} (format: 2018-01-25 10:30:45)</label>
+		<div class="form-control" id="formControlInput5">
+		{{ form.end_date(size=20) }}
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="formControlInput6">{{ form.description.label }}</label>
+		<div class="form-control" id="formControlInput6">
+		{{ form.description(size=100) }}
+		</div>
+	</div>
+	<button class="btn btn-primary" type="submit">Submit</button>
+</form>
 
-    <input type="submit" value="Submit!">
-  </form>
-</div>
 {% endblock %}
