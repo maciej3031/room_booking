@@ -91,3 +91,34 @@ def users_list():
     if request.method == 'GET':
         users = session.query(Uzytkownicy).all()
         return render_template('users_list.html', users=users)
+
+		
+@app.route('/users/<pk>/', methods=['GET'])
+def user_details(pk):
+    if request.method == 'GET':
+        user = session.query(Uzytkownicy).filter_by(IdUzytkownika=pk).first()
+        if user is None:
+            flash("No user with given ID.", category='error')
+            return redirect(url_for("users_list"))
+        return render_template('user_details.html', user=user)		
+		
+		
+# TODO: add validation for not working and already reserved hours. Add possibility to set number of services.
+@app.route('/edit_reservation/<pk>', methods=['GET', 'POST'])
+def edit_reservation(pk):
+    form = AddReservationForm(request.form)
+    reservation = session.query(Rezerwacje).filter_by(IdRezerwacji=pk).first()
+    if request.method == 'POST':
+	    # TODO: delete existing reservation
+        session.query(Rezerwacje).filter_by(IdUzytkownika=pk).first().delete()
+        session.flush()
+        session.add(reservation)
+        for service_id in form.services.data:
+            detail = RezerwacjeSzczegoly(Ilosc=1,
+                                         IdRezerwacji=reservation.IdRezerwacji,
+                                         IdUslugi=int(service_id))
+            session.add(detail)
+            session.commit()
+        flash('Reservation edited.')
+        return redirect(url_for('index'))
+    return render_template('edit_reservation.html', form=form, reservation=reservation)

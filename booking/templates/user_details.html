@@ -1,0 +1,54 @@
+{% extends "index.html" %}
+{% block content %}
+
+<br>
+<h2>User Info</h2>
+<table class="table table-hover">
+	<thead>
+	  <tr>
+		<th>ID</th>
+		<th>First Name</th>
+		<th>Last Name</th>
+		<th>Description</th>
+		<th>Department ID</th>
+	  </tr>
+	</thead>
+	<tbody>
+	<tr>
+	    <td>{{ user.IdUzytkownika }}</td>
+		<td>{{ user.Imie }}</td>
+		<td>{{ user.Nazwisko }}</td>
+		<td>{{ user.OpisUzytkownika }}</td>
+		<td>{{ user.IdDzialu }}</td>
+	</tr>
+	</tbody>
+</table>
+
+<br>
+<h2>Pending reservations</h2>
+<table class="table table-hover">
+	<thead>
+	  <tr>
+		<th>Date</th>
+		<th>Start Date</th>
+		<th>End Date</th>
+		<th>Description</th>
+		<th>Room</th>
+		<th> </th>
+	  </tr>
+	</thead>
+	<tbody>
+	{% for reservation in user.rezerwacje_collection %}
+	<tr>
+		<td>{{ reservation.DataRezerwacji }}</td>
+		<td>{{ reservation.DataRozpoczecia }}</td>
+		<td>{{ reservation.DataZakonczenia }}</td>
+		<td>{{ reservation.OpisRezerwacji }}</td>
+		<td><a href="{{ url_for('room_details', pk=reservation.sale.IdSali) }}">{{ reservation.sale.Nazwa }}</a></td>
+		<td><a href="{{ url_for('edit_reservation', pk=reservation.IdRezerwacji) }}">{{ "Edit" }}</a></td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{% endblock %}

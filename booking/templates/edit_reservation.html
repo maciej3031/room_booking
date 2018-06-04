@@ -1,0 +1,92 @@
+{% extends "index.html" %}
+{% block content %}
+
+<br>
+<h2>Reservation Info</h2>
+<table class="table table-hover">
+	<thead>
+	  <tr>
+		<th>Date</th>
+		<th>Start Date</th>
+		<th>End Date</th>
+		<th>Description</th>
+		<th>Room</th>
+		<th>User</th>
+	  </tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>{{ reservation.DataRezerwacji }}</td>
+		<td>{{ reservation.DataRozpoczecia }}</td>
+		<td>{{ reservation.DataZakonczenia }}</td>
+		<td>{{ reservation.OpisRezerwacji }}</td>
+		<td><a href="{{ url_for('room_details', pk=reservation.sale.IdSali) }}">{{ reservation.sale.Nazwa }}</a></td>
+		<td>{{ reservation.IdUzytkownika }}</td>
+	</tr>
+	</tbody>
+</table>
+
+<br>
+<h2>Ordered Servics</h2>
+<table class="table table-hover">
+	<thead>
+	  <tr>
+		<th>Quantity</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Price</th>
+		<th>Description</th>
+	  </tr>
+	</thead>
+	<tbody>
+	{% for detail in reservation.rezerwacjeszczegoly_collection %}
+	<tr>
+		<td>{{ detail.Ilosc }}</td>
+		<td>{{ detail.uslugi.Nazwa }}</td>
+		<td>{{ detail.uslugi.Typ }}</td>
+		<td>{{ detail.uslugi.CenaWykorzystania }}</td>
+		<td>{{ detail.uslugi.OpisUslugi }}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+<br>
+<h2>Edit Reservation</h2>
+<p class="text-muted">Fill this form to edit a reservation entry.</p>
+<form method="POST" action="{{ url_for('edit_reservation', pk=reservation.IdRezerwacji) }}">
+	{{ form.csrf_token }}
+	<div class="form-group">
+		<label for="formControlInput2">{{ form.room.label }}</label>
+		<div class="form-control" id="formControlInput2">
+		{{ form.room(size=7) }}
+		</div>
+		</div>
+		<div class="form-group">
+		<label for="formControlInput3">{{ form.services.label }} (multiselect with Ctrl)</label>
+		<div class="form-control" id="formControlInput3">
+		{{ form.services(size=7) }}
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="formControlInput4">{{ form.start_date.label }} (format: 2018-01-25 10:30:45)</label>
+		<div class="form-control" id="formControlInput4">
+		{{ form.start_date(size=20) }}
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="formControlInput5">{{ form.end_date.label }} (format: 2018-01-25 10:30:45)</label>
+		<div class="form-control" id="formControlInput5">
+		{{ form.end_date(size=20) }}
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="formControlInput6">{{ form.description.label }}</label>
+		<div class="form-control" id="formControlInput6">
+		{{ form.description(size=100) }}
+		</div>
+	</div>
+	<button class="btn btn-primary" type="submit">Submit</button>
+</form>
+
+{% endblock %}

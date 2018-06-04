@@ -17,7 +17,7 @@
 		<tbody>
 		{% for user in users %}
 		<tr>
-			<td>{{ user.IdUzytkownika }}</td>
+			<td><a href="{{ url_for('user_details', pk=user.IdUzytkownika) }}">{{ user.IdUzytkownika }}</a></td>
 			<td>{{ user.Imie }}</td>
 			<td>{{ user.Nazwisko }}</td>
 			<td>{{ user.OpisUzytkownika }}</td>
