@@ -8,6 +8,7 @@ from booking import app
 from booking.forms import AddReservationForm
 from booking.models import Rezerwacje, Sale, Uzytkownicy, RezerwacjeSzczegoly, session
 
+
 # TODO: Add change_reservation, fix add_reservation
 
 
@@ -44,7 +45,6 @@ def change_reservation():
 def add_reservation():
     form = AddReservationForm(request.form)
     if request.method == 'POST':
-        session.query(Rezerwacje.IdRezerwacji).all()
         # It's stupid but I have no idea why it doesn't work without IdRezerwacji. It should work just like for RezerwacjeSzczegoly.
         max_id = session.query(Rezerwacje).order_by(Rezerwacje.IdRezerwacji.desc()).first().IdRezerwacji
         reservation = Rezerwacje(
@@ -54,7 +54,7 @@ def add_reservation():
             OpisRezerwacji=form.description.data,
             IdUzytkownika=form.user_id.data,
             IdSali=int(form.room.data),
-            IdRezerwacji=max_id+1,
+            IdRezerwacji=max_id + 1,
         )
         session.flush()
         session.add(reservation)
@@ -92,7 +92,7 @@ def users_list():
         users = session.query(Uzytkownicy).all()
         return render_template('users_list.html', users=users)
 
-		
+
 @app.route('/users/<pk>/', methods=['GET'])
 def user_details(pk):
     if request.method == 'GET':
@@ -100,25 +100,29 @@ def user_details(pk):
         if user is None:
             flash("No user with given ID.", category='error')
             return redirect(url_for("users_list"))
-        return render_template('user_details.html', user=user)		
-		
-		
+        return render_template('user_details.html', user=user)
+
+
 # TODO: add validation for not working and already reserved hours. Add possibility to set number of services.
-@app.route('/edit_reservation/<pk>', methods=['GET', 'POST'])
+@app.route('/edit_reservation/<pk>/', methods=['GET', 'POST'])
 def edit_reservation(pk):
     form = AddReservationForm(request.form)
-    reservation = session.query(Rezerwacje).filter_by(IdRezerwacji=pk).first()
     if request.method == 'POST':
-	    # TODO: delete existing reservation
-        session.query(Rezerwacje).filter_by(IdUzytkownika=pk).first().delete()
-        session.flush()
-        session.add(reservation)
+        session.query(Rezerwacje).filter_by(IdRezerwacji=pk).update(dict(
+            DataRezerwacji=datetime.now(),
+            DataRozpoczecia=form.start_date.data,
+            DataZakonczenia=form.end_date.data,
+            OpisRezerwacji=form.description.data,
+            IdSali=int(form.room.data)))
+
         for service_id in form.services.data:
+            session.query(RezerwacjeSzczegoly).filter_by(IdRezerwacji=pk).delete()
+            session.flush()
             detail = RezerwacjeSzczegoly(Ilosc=1,
-                                         IdRezerwacji=reservation.IdRezerwacji,
+                                         IdRezerwacji=pk,
                                          IdUslugi=int(service_id))
             session.add(detail)
             session.commit()
-        flash('Reservation edited.')
+        flash('Reservation changed.')
         return redirect(url_for('index'))
-    return render_template('edit_reservation.html', form=form, reservation=reservation)
+    return render_template('edit_reservation.html', form=form, reservation=session.query(Rezerwacje).get(pk))
